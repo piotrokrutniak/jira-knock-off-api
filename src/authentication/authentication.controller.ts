@@ -7,42 +7,42 @@ import {
   UseGuards,
   Get,
   UseInterceptors,
-} from '@nestjs/common';
-import { AuthenticationService } from './authentication.service';
-import RegisterDto from './dto/register.dto';
-import RequestWithUser from './requestWithUser.interface';
-import { LocalAuthenticationGuard } from './localAuthentication.guard';
-import JwtAuthenticationGuard from './jwt-authentication.guard';
-import { User } from '../users/user.schema';
-import MongooseClassSerializerInterceptor from '../utils/mongooseClassSerializer.interceptor';
+} from "@nestjs/common";
+import { AuthenticationService } from "./authentication.service";
+import RegisterDto from "./dto/register.dto";
+import RequestWithUser from "./requestWithUser.interface";
+import { LocalAuthenticationGuard } from "./localAuthentication.guard";
+import JwtAuthenticationGuard from "./jwt-authentication.guard";
+import { User } from "../users/user.schema";
+import MongooseClassSerializerInterceptor from "../utils/mongooseClassSerializer.interceptor";
 
-@Controller('authentication')
+@Controller("authentication")
 @UseInterceptors(MongooseClassSerializerInterceptor(User))
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
-  @Post('register')
+  @Post("register")
   async register(@Body() registrationData: RegisterDto) {
     return this.authenticationService.register(registrationData);
   }
 
   @HttpCode(200)
   @UseGuards(LocalAuthenticationGuard)
-  @Post('log-in')
+  @Post("log-in")
   async logIn(@Req() request: RequestWithUser) {
     const { user } = request;
     const cookie = this.authenticationService.getCookieWithJwtToken(user._id);
-    request.res?.setHeader('Set-Cookie', cookie);
+    request.res?.setHeader("Set-Cookie", cookie);
     return user;
   }
 
   @UseGuards(JwtAuthenticationGuard)
-  @Post('log-out')
+  @Post("log-out")
   @HttpCode(200)
   async logOut(@Req() request: RequestWithUser) {
-    console.log('request.res', request.res)
+    console.log("request.res", request.res);
     request.res?.setHeader(
-      'Set-Cookie',
+      "Set-Cookie",
       this.authenticationService.getCookieForLogOut(),
     );
   }

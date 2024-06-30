@@ -1,5 +1,5 @@
-import { IsNumber, IsMongoId, Min, IsOptional } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNumber, IsMongoId, Min, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
 
 export class PaginationParams {
   @IsOptional()

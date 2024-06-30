@@ -1,10 +1,10 @@
-import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Category, CategoryDocument } from './category.schema';
-import { NotFoundException } from '@nestjs/common';
-import CategoryDto from './dto/category.dto';
-import { User } from '../users/user.schema';
+import { Model } from "mongoose";
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Category, CategoryDocument } from "./category.schema";
+import { NotFoundException } from "@nestjs/common";
+import CategoryDto from "./dto/category.dto";
+import { User } from "../users/user.schema";
 
 @Injectable()
 class CategoriesService {
@@ -13,11 +13,11 @@ class CategoriesService {
   ) {}
 
   async findAll() {
-    return this.categoryModel.find().populate('author');
+    return this.categoryModel.find().populate("author");
   }
 
   async findOne(id: string) {
-    const category = await this.categoryModel.findById(id).populate('author');
+    const category = await this.categoryModel.findById(id).populate("author");
     if (!category) {
       throw new NotFoundException();
     }

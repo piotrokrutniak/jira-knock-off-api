@@ -1,8 +1,8 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
-import { User } from '../../users/user.schema';
-import { Exclude, Type } from 'class-transformer';
-import { Category } from '../../categories/category.schema';
-import { Series } from '../../series/series.schema';
+import { IsString, IsNotEmpty, IsOptional } from "class-validator";
+import { User } from "../../users/user.schema";
+import { Exclude, Type } from "class-transformer";
+import { Category } from "../../categories/category.schema";
+import { Series } from "../../series/series.schema";
 
 export class UpdatePostDto {
   @IsOptional()

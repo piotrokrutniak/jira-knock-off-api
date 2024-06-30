@@ -1,10 +1,10 @@
-import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Series, SeriesDocument } from './series.schema';
-import { NotFoundException } from '@nestjs/common';
-import SeriesDto from './dto/series.dto';
-import { User } from '../users/user.schema';
+import { Model } from "mongoose";
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Series, SeriesDocument } from "./series.schema";
+import { NotFoundException } from "@nestjs/common";
+import SeriesDto from "./dto/series.dto";
+import { User } from "../users/user.schema";
 
 @Injectable()
 class SeriesService {
@@ -13,11 +13,11 @@ class SeriesService {
   ) {}
 
   async findAll() {
-    return this.seriesModel.find().populate('author');
+    return this.seriesModel.find().populate("author");
   }
 
   async findOne(id: string) {
-    const series = await this.seriesModel.findById(id).populate('author');
+    const series = await this.seriesModel.findById(id).populate("author");
     if (!series) {
       throw new NotFoundException();
     }

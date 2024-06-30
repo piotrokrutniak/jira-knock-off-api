@@ -1,12 +1,12 @@
-import { FilterQuery, Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Post, PostDocument } from './post.schema';
-import { NotFoundException } from '@nestjs/common';
-import PostDto from './dto/post.dto';
-import { User } from '../users/user.schema';
-import * as mongoose from 'mongoose';
-import UpdatePostDto from './dto/updatePost.dto';
+import { FilterQuery, Model } from "mongoose";
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Post, PostDocument } from "./post.schema";
+import { NotFoundException } from "@nestjs/common";
+import PostDto from "./dto/post.dto";
+import { User } from "../users/user.schema";
+import * as mongoose from "mongoose";
+import UpdatePostDto from "./dto/updatePost.dto";
 
 @Injectable()
 class PostsService {
@@ -36,9 +36,9 @@ class PostsService {
       .find(filters)
       .sort({ _id: 1 })
       .skip(documentsToSkip)
-      .populate('author')
-      .populate('categories')
-      .populate('series');
+      .populate("author")
+      .populate("categories")
+      .populate("series");
 
     if (limitOfDocuments) {
       findQuery.limit(limitOfDocuments);
@@ -53,9 +53,9 @@ class PostsService {
   async findOne(id: string) {
     const post = await this.postModel
       .findById(id)
-      .populate('author')
-      .populate('categories')
-      .populate('series');
+      .populate("author")
+      .populate("categories")
+      .populate("series");
     if (!post) {
       throw new NotFoundException();
     }
@@ -67,16 +67,16 @@ class PostsService {
       ...postData,
       author,
     });
-    await createdPost.populate('categories').populate('series').execPopulate();
+    await createdPost.populate("categories").populate("series").execPopulate();
     return createdPost.save();
   }
 
   async update(id: string, postData: UpdatePostDto) {
     const post = await this.postModel
       .findOneAndReplace({ _id: id }, postData, { new: true })
-      .populate('author')
-      .populate('categories')
-      .populate('series');
+      .populate("author")
+      .populate("categories")
+      .populate("series");
     if (!post) {
       throw new NotFoundException();
     }

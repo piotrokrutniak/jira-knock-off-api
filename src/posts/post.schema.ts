@@ -1,10 +1,10 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId } from 'mongoose';
-import * as mongoose from 'mongoose';
-import { User } from '../users/user.schema';
-import { Transform, Type } from 'class-transformer';
-import { Category } from '../categories/category.schema';
-import { Series } from '../series/series.schema';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document, ObjectId } from "mongoose";
+import * as mongoose from "mongoose";
+import { User } from "../users/user.schema";
+import { Transform, Type } from "class-transformer";
+import { Category } from "../categories/category.schema";
+import { Series } from "../series/series.schema";
 
 export type PostDocument = Post & Document;
 
@@ -43,6 +43,6 @@ export class Post {
 
 const PostSchema = SchemaFactory.createForClass(Post);
 
-PostSchema.index({ title: 'text', content: 'text' });
+PostSchema.index({ title: "text", content: "text" });
 
 export { PostSchema };

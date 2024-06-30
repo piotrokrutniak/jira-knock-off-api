@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import PostsModule from './posts/posts.module';
-import * as Joi from '@hapi/joi';
-import { AuthenticationModule } from './authentication/authentication.module';
-import CategoriesModule from './categories/categories.module';
-import SeriesModule from './series/series.module';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import PostsModule from "./posts/posts.module";
+import * as Joi from "@hapi/joi";
+import { AuthenticationModule } from "./authentication/authentication.module";
+import CategoriesModule from "./categories/categories.module";
+import SeriesModule from "./series/series.module";
 
 @Module({
   imports: [
@@ -24,8 +24,8 @@ import SeriesModule from './series/series.module';
         // const username = configService.get('MONGO_USERNAME');
         // const password = configService.get('MONGO_PASSWORD');
         // const host = configService.get('MONGO_HOST');
-        const database = configService.get('MONGO_DATABASE');
-        const connectionString = configService.get('MONGO_CONNECTION_STRING');
+        const database = configService.get("MONGO_DATABASE");
+        const connectionString = configService.get("MONGO_CONNECTION_STRING");
 
         return {
           // uri: `mongodb://${username}:${password}@${host}`,

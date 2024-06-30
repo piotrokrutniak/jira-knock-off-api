@@ -1,8 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId } from 'mongoose';
-import { Exclude, Transform, Type } from 'class-transformer';
-import { Address, AddressSchema } from './address.schema';
-import { Post } from '../posts/post.schema';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document, ObjectId } from "mongoose";
+import { Exclude, Transform, Type } from "class-transformer";
+import { Address, AddressSchema } from "./address.schema";
+import { Post } from "../posts/post.schema";
 
 export type UserDocument = User & Document;
 
@@ -54,16 +54,16 @@ export class User {
 
 const UserSchema = SchemaFactory.createForClass(User);
 
-UserSchema.index({ firstName: 'text', lastName: 'text' });
+UserSchema.index({ firstName: "text", lastName: "text" });
 
-UserSchema.virtual('fullName').get(function (this: User) {
+UserSchema.virtual("fullName").get(function (this: User) {
   return `${this.firstName} ${this.lastName}`;
 });
 
-UserSchema.virtual('posts', {
-  ref: 'Post',
-  localField: '_id',
-  foreignField: 'author',
+UserSchema.virtual("posts", {
+  ref: "Post",
+  localField: "_id",
+  foreignField: "author",
 });
 
 export { UserSchema };

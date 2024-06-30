@@ -1,11 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import RegisterDto from './dto/register.dto';
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import TokenPayload from './tokenPayload.interface';
-import MongoError from '../utils/mongoError.enum';
-import UsersService from '../users/users.service';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import RegisterDto from "./dto/register.dto";
+import * as bcrypt from "bcrypt";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
+import TokenPayload from "./tokenPayload.interface";
+import MongoError from "../utils/mongoError.enum";
+import UsersService from "../users/users.service";
 
 @Injectable()
 export class AuthenticationService {
@@ -25,12 +25,12 @@ export class AuthenticationService {
     } catch (error) {
       if (error?.code === MongoError.DuplicateKey) {
         throw new HttpException(
-          'User with that email already exists',
+          "User with that email already exists",
           HttpStatus.BAD_REQUEST,
         );
       }
       throw new HttpException(
-        'Something went wrong',
+        "Something went wrong",
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -40,7 +40,7 @@ export class AuthenticationService {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
     return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-      'JWT_EXPIRATION_TIME',
+      "JWT_EXPIRATION_TIME",
     )}`;
   }
 
@@ -55,7 +55,7 @@ export class AuthenticationService {
       return user;
     } catch (error) {
       throw new HttpException(
-        'Wrong credentials provided',
+        "Wrong credentials provided",
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -71,7 +71,7 @@ export class AuthenticationService {
     );
     if (!isPasswordMatching) {
       throw new HttpException(
-        'Wrong credentials provided',
+        "Wrong credentials provided",
         HttpStatus.BAD_REQUEST,
       );
     }

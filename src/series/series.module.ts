@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import SeriesController from './series.controller';
-import SeriesService from './series.service';
-import { Series, SeriesSchema } from './series.schema';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import SeriesController from "./series.controller";
+import SeriesService from "./series.service";
+import { Series, SeriesSchema } from "./series.schema";
 
 @Module({
   imports: [

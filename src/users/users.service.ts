@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { UserDocument, User } from './user.schema';
-import CreateUserDto from './dto/createUser.dto';
-import PostsService from '../posts/posts.service';
-import { InjectConnection } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { UserDocument, User } from "./user.schema";
+import CreateUserDto from "./dto/createUser.dto";
+import PostsService from "../posts/posts.service";
+import { InjectConnection } from "@nestjs/mongoose";
+import * as mongoose from "mongoose";
 
 @Injectable()
 class UsersService {
@@ -17,9 +17,9 @@ class UsersService {
 
   async getByEmail(email: string) {
     const user = await this.userModel.findOne({ email }).populate({
-      path: 'posts',
+      path: "posts",
       populate: {
-        path: 'categories',
+        path: "categories",
       },
     });
 
@@ -32,9 +32,9 @@ class UsersService {
 
   async getById(id: string) {
     const user = await this.userModel.findById(id).populate({
-      path: 'posts',
+      path: "posts",
       populate: {
-        path: 'categories',
+        path: "categories",
       },
     });
 
@@ -49,9 +49,9 @@ class UsersService {
     const createdUser = new this.userModel(userData);
     await createdUser
       .populate({
-        path: 'posts',
+        path: "posts",
         populate: {
-          path: 'categories',
+          path: "categories",
         },
       })
       .execPopulate();
@@ -65,7 +65,7 @@ class UsersService {
     try {
       const user = await this.userModel
         .findByIdAndDelete(userId)
-        .populate('posts')
+        .populate("posts")
         .session(session);
 
       if (!user) {

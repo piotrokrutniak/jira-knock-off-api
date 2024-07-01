@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, ObjectId } from "mongoose";
 import { Exclude, Transform, Type } from "class-transformer";
 import { Address, AddressSchema } from "./address.schema";
-import { Post } from "../posts/post.schema";
+import { Project } from "../projects/project.schema";
 
 export type UserDocument = User & Document;
 
@@ -31,6 +31,9 @@ export class User {
   @Exclude()
   password: string;
 
+  @Prop()
+  roles: string[];
+
   @Prop({ type: AddressSchema })
   @Type(() => Address)
   address: Address;
@@ -48,8 +51,8 @@ export class User {
   })
   creditCardNumber?: string;
 
-  @Type(() => Post)
-  posts: Post[];
+  @Type(() => Project)
+  posts: Project[];
 }
 
 const UserSchema = SchemaFactory.createForClass(User);
@@ -60,10 +63,10 @@ UserSchema.virtual("fullName").get(function (this: User) {
   return `${this.firstName} ${this.lastName}`;
 });
 
-UserSchema.virtual("posts", {
-  ref: "Post",
+UserSchema.virtual("projects", {
+  ref: "Project",
   localField: "_id",
-  foreignField: "author",
+  foreignField: "owner",
 });
 
 export { UserSchema };

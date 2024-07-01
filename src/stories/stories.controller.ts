@@ -11,47 +11,47 @@ import {
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
-import PostsService from "./posts.service";
+import StoriesService from "./stories.service";
 import ParamsWithId from "../utils/paramsWithId";
-import PostDto from "./dto/post.dto";
+import PostDto from "./dto/story.dto";
 import JwtAuthenticationGuard from "../authentication/jwt-authentication.guard";
 import RequestWithUser from "../authentication/requestWithUser.interface";
 import MongooseClassSerializerInterceptor from "../utils/mongooseClassSerializer.interceptor";
-import { Post as PostModel } from "./post.schema";
+import { Story } from "./stories.schema";
 import { PaginationParams } from "../utils/paginationParams";
-import UpdatePostDto from "./dto/updatePost.dto";
+import UpdatePostDto from "./dto/updateStory.dto";
 
-@Controller("posts")
-@UseInterceptors(MongooseClassSerializerInterceptor(PostModel))
+@Controller("stories")
+@UseInterceptors(MongooseClassSerializerInterceptor(Story))
 export default class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(private readonly storiesService: StoriesService) {}
 
   @Get()
   async getAllPosts(
     @Query() { skip, limit, startId }: PaginationParams,
     @Query("searchQuery") searchQuery: string,
   ) {
-    return this.postsService.findAll(skip, limit, startId, searchQuery);
+    return this.storiesService.findAll(skip, limit, startId, searchQuery);
   }
 
   @Get(":id")
   async getPost(@Param() { id }: ParamsWithId) {
-    return this.postsService.findOne(id);
+    return this.storiesService.findOne(id);
   }
 
   @Post()
   @UseGuards(JwtAuthenticationGuard)
   async createPost(@Body() post: PostDto, @Req() req: RequestWithUser) {
-    return this.postsService.create(post, req.user);
+    return this.storiesService.create(post, req.user);
   }
 
   @Delete(":id")
   async deletePost(@Param() { id }: ParamsWithId) {
-    return this.postsService.delete(id);
+    return this.storiesService.delete(id);
   }
 
   @Put(":id")
   async updatePost(@Param() { id }: ParamsWithId, @Body() post: UpdatePostDto) {
-    return this.postsService.update(id, post);
+    return this.storiesService.update(id, post);
   }
 }

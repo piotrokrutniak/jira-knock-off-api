@@ -22,11 +22,11 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@nestjs/common": "^8.0.0",
+    "@nestjs/common": "^8.4.7",
     "@nestjs/config": "^1.0.1",
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^8.0.0",
-    "@nestjs/mongoose": "^8.0.0",
+    "@nestjs/mongoose": "^8.0.1",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@types/bcrypt": "^5.0.0",

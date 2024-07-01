@@ -1,12 +1,12 @@
 import { FilterQuery, Model } from "mongoose";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Post, PostDocument } from "./post.schema";
+import { Post, PostDocument } from "./stories.schema";
 import { NotFoundException } from "@nestjs/common";
-import PostDto from "./dto/post.dto";
+import PostDto from "./dto/story.dto";
 import { User } from "../users/user.schema";
 import * as mongoose from "mongoose";
-import UpdatePostDto from "./dto/updatePost.dto";
+import UpdatePostDto from "./dto/updateStory.dto";
 
 @Injectable()
 class PostsService {

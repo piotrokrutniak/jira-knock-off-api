@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UserDocument, User } from "./user.schema";
 import CreateUserDto from "./dto/createUser.dto";
-import PostsService from "../posts/posts.service";
+import ProjectService from "../projects/project.service";
 import { InjectConnection } from "@nestjs/mongoose";
 import * as mongoose from "mongoose";
 
@@ -11,7 +11,7 @@ import * as mongoose from "mongoose";
 class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
-    private readonly postsService: PostsService,
+    private readonly postsService: ProjectService,
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
 

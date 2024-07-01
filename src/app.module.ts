@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import PostsModule from "./posts/posts.module";
+import PostsModule from "./projects/project.module";
 import * as Joi from "@hapi/joi";
 import { AuthenticationModule } from "./authentication/authentication.module";
 import CategoriesModule from "./categories/categories.module";
-import SeriesModule from "./series/series.module";
+import StoriesModule from "./stories/stories.module";
 
 @Module({
   imports: [
@@ -37,8 +37,8 @@ import SeriesModule from "./series/series.module";
     }),
     PostsModule,
     AuthenticationModule,
+    StoriesModule,
     CategoriesModule,
-    SeriesModule,
   ],
   controllers: [],
   providers: [],

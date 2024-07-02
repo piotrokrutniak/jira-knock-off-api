@@ -7,11 +7,13 @@ import ProjectDto from "./dto/project.dto";
 import { User } from "../users/user.schema";
 import * as mongoose from "mongoose";
 import UpdateProjectDto from "./dto/updateProject.dto";
+import { Story, StoryDocument } from "src/stories/stories.schema";
 
 @Injectable()
 class ProjectService {
   constructor(
     @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
+    @InjectModel(Story.name) private storyModel: Model<StoryDocument>,
   ) {}
 
   async findAll(
@@ -89,6 +91,13 @@ class ProjectService {
     session: mongoose.ClientSession | null = null,
   ) {
     return this.projectModel.deleteMany({ _id: ids }).session(session);
+  }
+
+  async findProjectStories(projectId: string) {
+    return this.storyModel
+      .find({ project: projectId })
+      .populate("project")
+      .populate("owner");
   }
 }
 

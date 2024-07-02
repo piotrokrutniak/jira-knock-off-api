@@ -25,7 +25,7 @@ export class UpdateStoryDto {
   project: Project;
 
   @IsString()
-  ownerId: string;
+  owner: string;
 }
 
 export default UpdateStoryDto;

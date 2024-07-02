@@ -42,7 +42,8 @@ class StoriesService {
       .find(filters)
       .sort({ _id: 1 })
       .skip(documentsToSkip)
-      .populate("projects");
+      .populate("project")
+      .populate("owner");
 
     if (limitOfDocuments) {
       findQuery.limit(limitOfDocuments);
@@ -55,21 +56,25 @@ class StoriesService {
   }
 
   async findOne(id: string) {
-    const post = await this.storyModel.findById(id).populate("projects");
+    const post = await this.storyModel
+      .findById(id)
+      .populate("project")
+      .populate("owner");
     if (!post) {
       throw new NotFoundException();
     }
     return post;
   }
 
-  async create(postData: PostDto, owner: User) {
+  async create(postData: PostDto, user: User) {
     const project = await this.projectModel.findById(postData.project);
+    const owner = await this.userModel.findById(postData.ownerId);
     if (!project) {
       throw new NotFoundException("Project not found");
     }
 
     if (
-      owner.roles.filter((role) => role === "developer" || role === "devops")
+      !owner?.roles.filter((role) => role === "developer" || role === "devops")
     ) {
       throw new BadRequestException(
         "Only developers and devops can be assigned to stories stories",
@@ -79,13 +84,14 @@ class StoriesService {
     const createdPost = new this.storyModel({
       ...postData,
       owner,
+      project,
     });
-    await createdPost.populate("projects").execPopulate();
+    await createdPost.populate("project").populate("owner").execPopulate();
     return createdPost.save();
   }
 
   async update(id: string, storyData: UpdateStoryDto) {
-    const owner = await this.userModel.findById(storyData.ownerId);
+    const owner = await this.userModel.findById(storyData.owner);
     if (!owner) {
       throw new NotFoundException("Owner not found");
     }

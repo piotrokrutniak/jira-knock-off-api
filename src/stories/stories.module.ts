@@ -15,7 +15,7 @@ import { Project, ProjectSchema } from "src/projects/project.schema";
     MongooseModule.forFeature([{ name: Project.name, schema: ProjectSchema }]),
   ],
   controllers: [PostsController],
-  providers: [StoriesService, ProjectService, UsersService],
+  providers: [StoriesService, UsersService, ProjectService],
   exports: [StoriesService],
 })
 class StoriesModule {}

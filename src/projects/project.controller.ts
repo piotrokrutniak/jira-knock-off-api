@@ -57,4 +57,9 @@ export default class ProjectsController {
   ) {
     return this.projectService.update(id, post);
   }
+
+  @Get(":id/stories")
+  async getProjectStories(@Param() { id }: ParamsWithId) {
+    return this.projectService.findProjectStories(id);
+  }
 }

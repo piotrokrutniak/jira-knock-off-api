@@ -3,6 +3,7 @@ import { Document, ObjectId } from "mongoose";
 import * as mongoose from "mongoose";
 import { Transform } from "class-transformer";
 import { Project } from "src/projects/project.schema";
+import { User } from "src/users/user.schema";
 
 export type StoryDocument = Story & Document;
 
@@ -30,8 +31,8 @@ export class Story {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Project" })
   project: Project | string;
 
-  @Prop({ required: true })
-  ownerId: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
+  owner: User | string;
 }
 
 const StorySchema = SchemaFactory.createForClass(Story);

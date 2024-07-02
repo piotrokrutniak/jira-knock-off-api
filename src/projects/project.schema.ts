@@ -2,13 +2,18 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, ObjectId } from "mongoose";
 import * as mongoose from "mongoose";
 import { User } from "../users/user.schema";
-import { Transform, Type } from "class-transformer";
+import { Exclude, Type } from "class-transformer";
 
 export type ProjectDocument = Project & Document;
 
-@Schema()
+@Schema({
+  toJSON: {
+    getters: true,
+    virtuals: true,
+  },
+})
 export class Project {
-  @Transform(({ value }) => value.toString())
+  @Exclude()
   _id: ObjectId;
 
   @Prop()

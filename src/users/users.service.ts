@@ -71,10 +71,10 @@ class UsersService {
       if (!user) {
         throw new NotFoundException();
       }
-      const posts = user.posts;
+      const projects = user.projects;
 
       await this.postsService.deleteMany(
-        posts.map((post) => post._id.toString()),
+        projects.map((post) => post._id.toString()),
         session,
       );
       await session.commitTransaction();

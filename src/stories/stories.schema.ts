@@ -7,7 +7,12 @@ import { User } from "src/users/user.schema";
 
 export type StoryDocument = Story & Document;
 
-@Schema()
+@Schema({
+  toJSON: {
+    getters: true,
+    virtuals: true,
+  },
+})
 export class Story {
   @Transform(({ value }) => value.toString())
   _id: ObjectId;

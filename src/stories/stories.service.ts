@@ -56,14 +56,17 @@ class StoriesService {
   }
 
   async findOne(id: string) {
-    const post = await this.storyModel
+    const story = await this.storyModel
       .findById(id)
       .populate("project")
       .populate("owner");
-    if (!post) {
+
+    console.log(story);
+
+    if (!story) {
       throw new NotFoundException();
     }
-    return post;
+    return story;
   }
 
   async create(postData: PostDto, user: User) {

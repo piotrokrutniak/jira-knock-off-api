@@ -52,7 +52,7 @@ export class User {
   creditCardNumber?: string;
 
   @Type(() => Project)
-  posts: Project[];
+  projects: Project[];
 }
 
 const UserSchema = SchemaFactory.createForClass(User);

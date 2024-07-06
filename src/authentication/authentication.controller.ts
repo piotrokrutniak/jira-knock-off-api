@@ -68,7 +68,7 @@ export class AuthenticationController {
     if (!isValid) {
       throw new UnauthorizedException();
     }
-    // Assuming validateRefreshToken returns the user ID or some identifier
+
     const accessToken = this.authenticationService.getCookieWithJwtToken(
       isValid.userId,
     );

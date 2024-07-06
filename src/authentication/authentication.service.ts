@@ -41,9 +41,14 @@ export class AuthenticationService {
   public getCookieWithJwtToken(userId: string) {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-      "JWT_EXPIRATION_TIME",
-    )}`;
+    const cookieOptions = {
+      HttpOnly: true,
+      Path: "/",
+      "Max-Age": this.configService.get("JWT_EXPIRATION_TIME"),
+      Secure: true,
+      SameSite: "Strict",
+    };
+    return this.createCookieString("Authentication", token, cookieOptions);
   }
 
   public getCookieForLogOut() {
@@ -77,5 +82,51 @@ export class AuthenticationService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  generateRefreshToken(userId: string) {
+    const payload: TokenPayload = { userId: userId };
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: this.configService.get("JWT_REFRESH_SECRET"),
+      expiresIn: `${this.configService.get("JWT_REFRESH_EXPIRATION_TIME")}s`,
+    });
+
+    const cookieOptions = {
+      HttpOnly: true,
+      path: "/",
+      "Max-Age": this.configService.get("JWT_REFRESH_EXPIRATION_TIME"),
+      Secure: true,
+      SameSite: "Strict",
+    };
+
+    // Save to db to validate or revoke later
+    return this.createCookieString("Refresh", refreshToken, cookieOptions);
+  }
+
+  validateRefreshToken(token: string) {
+    try {
+      const payload = this.jwtService.verify(token, {
+        secret: this.configService.get("JWT_REFRESH_SECRET"),
+      });
+      return payload;
+    } catch (error) {
+      throw new HttpException("Invalid token", HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  private createCookieString(
+    name: string,
+    value: string,
+    options: Record<string, any>,
+  ): string {
+    const optionsString = Object.entries(options)
+      .map(([key, val]) => {
+        if (val === true) {
+          return key;
+        }
+        return `${key}=${val}`;
+      })
+      .join("; ");
+    return `${name}=${value}; ${optionsString}`;
   }
 }

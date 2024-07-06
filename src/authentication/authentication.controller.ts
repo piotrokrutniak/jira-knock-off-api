@@ -7,6 +7,7 @@ import {
   UseGuards,
   Get,
   UseInterceptors,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { AuthenticationService } from "./authentication.service";
 import RegisterDto from "./dto/register.dto";
@@ -31,8 +32,13 @@ export class AuthenticationController {
   @Post("log-in")
   async logIn(@Req() request: RequestWithUser) {
     const { user } = request;
-    const cookie = this.authenticationService.getCookieWithJwtToken(user._id);
-    request.res?.setHeader("Set-Cookie", cookie);
+    const accessToken = this.authenticationService.getCookieWithJwtToken(
+      user._id,
+    );
+    const refreshToken = this.authenticationService.generateRefreshToken(
+      user._id,
+    );
+    request.res?.setHeader("Set-Cookie", [accessToken, refreshToken]);
     return user;
   }
 
@@ -51,5 +57,22 @@ export class AuthenticationController {
   @Get()
   authenticate(@Req() request: RequestWithUser) {
     return request.user;
+  }
+
+  @UseGuards(JwtAuthenticationGuard)
+  @Post("refresh")
+  async refreshToken(@Req() request: RequestWithUser) {
+    const refreshToken = request.cookies["refreshToken"];
+    const isValid =
+      this.authenticationService.validateRefreshToken(refreshToken);
+    if (!isValid) {
+      throw new UnauthorizedException();
+    }
+    // Assuming validateRefreshToken returns the user ID or some identifier
+    const accessToken = this.authenticationService.getCookieWithJwtToken(
+      isValid.userId,
+    );
+    request.res?.setHeader("Set-Cookie", accessToken);
+    return { accessToken };
   }
 }

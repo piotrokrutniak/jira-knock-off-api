@@ -62,4 +62,10 @@ export default class ProjectsController {
   async getProjectStories(@Param() { id }: ParamsWithId) {
     return this.projectService.findProjectStories(id);
   }
+
+  // TODO: Notifications endpoint - https://docs.nestjs.com/techniques/server-sent-events#usage
+  // @Sse('sse')
+  // sse(): Observable<MessageEvent> {
+  //   return interval(1000).pipe(map((_) => ({ data: { hello: 'world' } })));
+  // }
 }

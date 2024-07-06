@@ -99,7 +99,7 @@ export class AuthenticationService {
       SameSite: "Strict",
     };
 
-    // Save to db to validate or revoke later
+    // TODO: Save to db to validate or revoke later
     return this.createCookieString("Refresh", refreshToken, cookieOptions);
   }
 

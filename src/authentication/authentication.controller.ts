@@ -35,7 +35,7 @@ export class AuthenticationController {
     const accessToken = this.authenticationService.getCookieWithJwtToken(
       user._id,
     );
-    const refreshToken = this.authenticationService.generateRefreshToken(
+    const refreshToken = this.authenticationService.getCookieWithRefreshToken(
       user._id,
     );
     request.res?.setHeader("Set-Cookie", [accessToken, refreshToken]);

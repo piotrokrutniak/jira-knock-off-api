@@ -51,8 +51,38 @@ export class AuthenticationService {
     return this.createCookieString("Authentication", token, cookieOptions);
   }
 
+  public getCookieWithRefreshToken(userId: string) {
+    const payload: TokenPayload = { userId: userId };
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: this.configService.get("JWT_REFRESH_SECRET"),
+      expiresIn: `${this.configService.get("JWT_REFRESH_EXPIRATION_TIME")}s`,
+    });
+
+    const cookieOptions = {
+      HttpOnly: true,
+      path: "/",
+      "Max-Age": this.configService.get("JWT_REFRESH_EXPIRATION_TIME"),
+      Secure: true,
+      SameSite: "Strict",
+    };
+
+    // TODO: Save to db to validate or revoke later
+    return this.createCookieString("Refresh", refreshToken, cookieOptions);
+  }
+
   public getCookieForLogOut() {
     return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+  }
+
+  public validateRefreshToken(token: string) {
+    try {
+      const payload = this.jwtService.verify(token, {
+        secret: this.configService.get("JWT_REFRESH_SECRET"),
+      });
+      return payload;
+    } catch (error) {
+      throw new HttpException("Invalid token", HttpStatus.UNAUTHORIZED);
+    }
   }
 
   public async getAuthenticatedUser(email: string, plainTextPassword: string) {
@@ -81,36 +111,6 @@ export class AuthenticationService {
         "Wrong credentials provided",
         HttpStatus.BAD_REQUEST,
       );
-    }
-  }
-
-  generateRefreshToken(userId: string) {
-    const payload: TokenPayload = { userId: userId };
-    const refreshToken = this.jwtService.sign(payload, {
-      secret: this.configService.get("JWT_REFRESH_SECRET"),
-      expiresIn: `${this.configService.get("JWT_REFRESH_EXPIRATION_TIME")}s`,
-    });
-
-    const cookieOptions = {
-      HttpOnly: true,
-      path: "/",
-      "Max-Age": this.configService.get("JWT_REFRESH_EXPIRATION_TIME"),
-      Secure: true,
-      SameSite: "Strict",
-    };
-
-    // TODO: Save to db to validate or revoke later
-    return this.createCookieString("Refresh", refreshToken, cookieOptions);
-  }
-
-  validateRefreshToken(token: string) {
-    try {
-      const payload = this.jwtService.verify(token, {
-        secret: this.configService.get("JWT_REFRESH_SECRET"),
-      });
-      return payload;
-    } catch (error) {
-      throw new HttpException("Invalid token", HttpStatus.UNAUTHORIZED);
     }
   }
 

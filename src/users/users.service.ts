@@ -45,6 +45,42 @@ class UsersService {
     return user;
   }
 
+  async findAll(
+    documentsToSkip = 0,
+    limitOfDocuments?: number,
+    startId?: string,
+    searchQuery?: string,
+  ) {
+    const filters: any = startId
+      ? {
+          _id: {
+            $gt: startId,
+          },
+        }
+      : {};
+
+    if (searchQuery) {
+      filters.$text = {
+        $search: searchQuery,
+      };
+    }
+
+    const findQuery = this.userModel
+      .find(filters)
+      .sort({ _id: 1 })
+      .skip(documentsToSkip)
+      .populate("projects");
+
+    if (limitOfDocuments) {
+      findQuery.limit(limitOfDocuments);
+    }
+
+    const results = await findQuery;
+    const count = await this.userModel.count();
+
+    return { results, count };
+  }
+
   async create(userData: CreateUserDto) {
     const createdUser = new this.userModel(userData);
     await createdUser

@@ -61,8 +61,6 @@ class StoriesService {
       .populate("project")
       .populate("owner");
 
-    console.log(story);
-
     if (!story) {
       throw new NotFoundException();
     }
@@ -100,7 +98,7 @@ class StoriesService {
     }
 
     if (
-      owner.roles.filter((role) => role === "developer" || role === "devops")
+      !owner?.roles.filter((role) => role === "developer" || role === "devops")
     ) {
       throw new BadRequestException(
         "Only developers and devops can be assigned to stories stories",

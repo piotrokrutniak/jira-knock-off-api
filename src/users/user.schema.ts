@@ -10,6 +10,12 @@ export type UserDocument = User & Document;
   toJSON: {
     getters: true,
     virtuals: true,
+    transform: (doc, ret) => {
+      delete ret._id;
+      delete ret.__v;
+      delete ret.password;
+      return ret;
+    },
   },
 })
 export class User {

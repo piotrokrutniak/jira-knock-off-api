@@ -6,10 +6,20 @@ import { Transform, Type } from "class-transformer";
 import { Category } from "../categories/category.schema";
 import { Series } from "../series/series.schema";
 
-export type PostDocument = Post & Document;
+export type StoryDocument = Story & Document;
 
-@Schema()
-export class Post {
+@Schema({
+  toJSON: {
+    getters: true,
+    virtuals: true,
+    transform: (doc, ret) => {
+      delete ret._id;
+      delete ret.__v;
+      return ret;
+    },
+  },
+})
+export class Story {
   @Transform(({ value }) => value.toString())
   _id: ObjectId;
 
@@ -41,8 +51,8 @@ export class Post {
   series?: Series;
 }
 
-const PostSchema = SchemaFactory.createForClass(Post);
+const StorySchema = SchemaFactory.createForClass(Story);
 
-PostSchema.index({ title: "text", content: "text" });
+StorySchema.index({ title: "text", content: "text" });
 
-export { PostSchema };
+export { StorySchema };

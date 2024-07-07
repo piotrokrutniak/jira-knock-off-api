@@ -1,7 +1,7 @@
 import { FilterQuery, Model } from "mongoose";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Post, PostDocument } from "./stories.schema";
+import { Story, StoryDocument } from "./stories.schema";
 import { NotFoundException } from "@nestjs/common";
 import PostDto from "./dto/story.dto";
 import { User } from "../users/user.schema";
@@ -10,7 +10,9 @@ import UpdatePostDto from "./dto/updateStory.dto";
 
 @Injectable()
 class PostsService {
-  constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) {}
+  constructor(
+    @InjectModel(Story.name) private postModel: Model<StoryDocument>,
+  ) {}
 
   async findAll(
     documentsToSkip = 0,
@@ -18,7 +20,7 @@ class PostsService {
     startId?: string,
     searchQuery?: string,
   ) {
-    const filters: FilterQuery<PostDocument> = startId
+    const filters: FilterQuery<StoryDocument> = startId
       ? {
           _id: {
             $gt: startId,

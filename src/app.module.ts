@@ -6,6 +6,7 @@ import * as Joi from "@hapi/joi";
 import { AuthenticationModule } from "./authentication/authentication.module";
 import CategoriesModule from "./categories/categories.module";
 import StoriesModule from "./stories/stories.module";
+import { UsersModule } from "./users/users.module";
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import StoriesModule from "./stories/stories.module";
     AuthenticationModule,
     StoriesModule,
     CategoriesModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

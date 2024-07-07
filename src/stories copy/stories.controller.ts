@@ -17,7 +17,7 @@ import PostDto from "./dto/story.dto";
 import JwtAuthenticationGuard from "../authentication/jwt-authentication.guard";
 import RequestWithUser from "../authentication/requestWithUser.interface";
 import MongooseClassSerializerInterceptor from "../utils/mongooseClassSerializer.interceptor";
-import { Post as PostModel } from "./stories.schema";
+import { Story as PostModel } from "./stories.schema";
 import { PaginationParams } from "../utils/paginationParams";
 import UpdatePostDto from "./dto/updateStory.dto";
 

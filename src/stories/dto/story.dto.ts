@@ -7,7 +7,6 @@ export class StoryDto {
   title: string;
 
   @IsString()
-  @IsNotEmpty()
   description: string;
 
   @IsString()
@@ -20,7 +19,7 @@ export class StoryDto {
   project: Project;
 
   @IsString()
-  ownerId: string;
+  owner: string;
 }
 
 export default StoryDto;

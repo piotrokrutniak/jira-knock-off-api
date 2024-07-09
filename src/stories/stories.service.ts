@@ -69,7 +69,7 @@ class StoriesService {
 
   async create(postData: PostDto, user: User) {
     const project = await this.projectModel.findById(postData.project);
-    const owner = await this.userModel.findById(postData.ownerId);
+    const owner = await this.userModel.findById(postData.owner);
     if (!project) {
       throw new NotFoundException("Project not found");
     }

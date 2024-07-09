@@ -12,7 +12,6 @@ export class UpdateStoryDto {
   title: string;
 
   @IsString()
-  @IsNotEmpty()
   description: string;
 
   @IsString()

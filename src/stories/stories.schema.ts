@@ -4,6 +4,7 @@ import * as mongoose from "mongoose";
 import { Transform } from "class-transformer";
 import { Project } from "src/projects/project.schema";
 import { User } from "src/users/user.schema";
+import { Optional } from "@nestjs/common";
 
 export type StoryDocument = Story & Document;
 
@@ -21,11 +22,12 @@ export class Story {
   title: string;
 
   @Prop({
+    required: false,
     set: (description: string) => {
       return description.trim();
     },
   })
-  description: string;
+  description?: string;
 
   @Prop({ required: true, enum: ["open", "in_progress", "closed"] }) // Example enum, adjust as needed
   status: string;

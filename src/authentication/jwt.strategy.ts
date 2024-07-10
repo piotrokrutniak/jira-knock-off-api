@@ -19,6 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         },
       ]),
       secretOrKey: configService.get("JWT_SECRET"),
+      refreshTokenSecret: configService.get("JWT_REFRESH_SECRET"),
     });
   }
 

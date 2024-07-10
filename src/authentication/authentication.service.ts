@@ -70,8 +70,10 @@ export class AuthenticationService {
     return this.createCookieString("Refresh", refreshToken, cookieOptions);
   }
 
-  public getCookieForLogOut() {
-    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+  public getCookiesForLogOut() {
+    const refreshTokenCookie = `Refresh=; HttpOnly; Path=/; Max-Age=0`;
+    const authenticationCookie = `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+    return [refreshTokenCookie, authenticationCookie];
   }
 
   public validateRefreshToken(token: string) {

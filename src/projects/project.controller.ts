@@ -46,11 +46,13 @@ export default class ProjectsController {
   }
 
   @Delete(":id")
+  @UseGuards(JwtAuthenticationGuard)
   async deleteProject(@Param() { id }: ParamsWithId) {
     return this.projectService.delete(id);
   }
 
   @Put(":id")
+  @UseGuards(JwtAuthenticationGuard)
   async updateProject(
     @Param() { id }: ParamsWithId,
     @Body() post: UpdateProjectDto,

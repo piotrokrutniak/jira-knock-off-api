@@ -40,11 +40,13 @@ export default class SeriesController {
   }
 
   @Delete(":id")
+  @UseGuards(JwtAuthenticationGuard)
   async deleteSeries(@Param() { id }: ParamsWithId) {
     return this.seriesService.delete(id);
   }
 
   @Put(":id")
+  @UseGuards(JwtAuthenticationGuard)
   async updateSeries(@Param() { id }: ParamsWithId, @Body() series: SeriesDto) {
     return this.seriesService.update(id, series);
   }

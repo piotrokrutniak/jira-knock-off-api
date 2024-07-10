@@ -46,11 +46,13 @@ export default class PostsController {
   }
 
   @Delete(":id")
+  @UseGuards(JwtAuthenticationGuard)
   async deletePost(@Param() { id }: ParamsWithId) {
     return this.storiesService.delete(id);
   }
 
   @Put(":id")
+  @UseGuards(JwtAuthenticationGuard)
   async updatePost(@Param() { id }: ParamsWithId, @Body() post: UpdatePostDto) {
     return this.storiesService.update(id, post);
   }

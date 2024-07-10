@@ -4,7 +4,6 @@ import * as mongoose from "mongoose";
 import { Transform } from "class-transformer";
 import { Project } from "src/projects/project.schema";
 import { User } from "src/users/user.schema";
-import { Optional } from "@nestjs/common";
 
 export type StoryDocument = Story & Document;
 

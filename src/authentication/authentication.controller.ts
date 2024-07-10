@@ -49,7 +49,7 @@ export class AuthenticationController {
     console.log("request.res", request.res);
     request.res?.setHeader(
       "Set-Cookie",
-      this.authenticationService.getCookieForLogOut(),
+      this.authenticationService.getCookiesForLogOut(),
     );
   }
 
@@ -59,10 +59,10 @@ export class AuthenticationController {
     return request.user;
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  // @UseGuards(JwtAuthenticationGuard)
   @Post("refresh")
   async refreshToken(@Req() request: RequestWithUser) {
-    const refreshToken = request.cookies["refreshToken"];
+    const refreshToken = request.cookies["Refresh"];
     const isValid =
       this.authenticationService.validateRefreshToken(refreshToken);
     if (!isValid) {

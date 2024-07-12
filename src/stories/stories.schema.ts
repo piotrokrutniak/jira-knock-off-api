@@ -28,7 +28,7 @@ export class Story {
   })
   description?: string;
 
-  @Prop({ required: true, enum: ["open", "in_progress", "closed"] }) // Example enum, adjust as needed
+  @Prop({ required: true, enum: ["todo", "in-progress", "done"] }) // Example enum, adjust as needed
   status: string;
 
   @Prop({ required: true, enum: ["low", "medium", "high"] }) // Example enum, adjust as needed

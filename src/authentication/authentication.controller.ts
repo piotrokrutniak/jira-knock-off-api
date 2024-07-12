@@ -46,11 +46,11 @@ export class AuthenticationController {
   @Post("log-out")
   @HttpCode(200)
   async logOut(@Req() request: RequestWithUser) {
-    console.log("request.res", request.res);
     request.res?.setHeader(
       "Set-Cookie",
       this.authenticationService.getCookiesForLogOut(),
     );
+    return { message: "Logged out" };
   }
 
   @UseGuards(JwtAuthenticationGuard)
@@ -59,6 +59,7 @@ export class AuthenticationController {
     return request.user;
   }
 
+  // TODO: Guard with JwtRefreshGuard
   // @UseGuards(JwtAuthenticationGuard)
   @Post("refresh")
   async refreshToken(@Req() request: RequestWithUser) {

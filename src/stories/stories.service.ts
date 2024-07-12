@@ -119,6 +119,7 @@ class StoriesService {
     if (!result) {
       throw new NotFoundException();
     }
+    return {};
   }
 
   async deleteMany(

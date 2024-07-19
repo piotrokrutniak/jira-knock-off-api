@@ -7,6 +7,7 @@ import { AuthenticationModule } from "./authentication/authentication.module";
 import CategoriesModule from "./categories/categories.module";
 import StoriesModule from "./stories/stories.module";
 import { UsersModule } from "./users/users.module";
+import TasksModule from "./stories copy/tasks.module";
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { UsersModule } from "./users/users.module";
     StoriesModule,
     CategoriesModule,
     UsersModule,
+    TasksModule,
   ],
   controllers: [],
   providers: [],

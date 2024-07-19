@@ -11,47 +11,47 @@ import {
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
-import PostsService from "./stories.service";
 import ParamsWithId from "../utils/paramsWithId";
-import PostDto from "./dto/story.dto";
+import TaskDto from "./dto/task.dto";
 import JwtAuthenticationGuard from "../authentication/jwt-authentication.guard";
 import RequestWithUser from "../authentication/requestWithUser.interface";
 import MongooseClassSerializerInterceptor from "../utils/mongooseClassSerializer.interceptor";
-import { Story as PostModel } from "./stories.schema";
+import { Task as TaskModel } from "./tasks.schema";
 import { PaginationParams } from "../utils/paginationParams";
-import UpdatePostDto from "./dto/updateStory.dto";
+import UpdateTaskDto from "./dto/updateTask.dto";
+import TasksService from "./tasks.service";
 
-@Controller("posts")
-@UseInterceptors(MongooseClassSerializerInterceptor(PostModel))
-export default class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+@Controller("tasks")
+@UseInterceptors(MongooseClassSerializerInterceptor(TaskModel))
+export default class TasksController {
+  constructor(private readonly tasksService: TasksService) {}
 
   @Get()
   async getAllPosts(
     @Query() { skip, limit, startId }: PaginationParams,
     @Query("searchQuery") searchQuery: string,
   ) {
-    return this.postsService.findAll(skip, limit, startId, searchQuery);
+    return this.tasksService.findAll(skip, limit, startId, searchQuery);
   }
 
   @Get(":id")
   async getPost(@Param() { id }: ParamsWithId) {
-    return this.postsService.findOne(id);
+    return this.tasksService.findOne(id);
   }
 
   @Post()
   @UseGuards(JwtAuthenticationGuard)
-  async createPost(@Body() post: PostDto, @Req() req: RequestWithUser) {
-    return this.postsService.create(post, req.user);
+  async createPost(@Body() post: TaskDto, @Req() req: RequestWithUser) {
+    return this.tasksService.create(post, req.user);
   }
 
   @Delete(":id")
   async deletePost(@Param() { id }: ParamsWithId) {
-    return this.postsService.delete(id);
+    return this.tasksService.delete(id);
   }
 
   @Put(":id")
-  async updatePost(@Param() { id }: ParamsWithId, @Body() post: UpdatePostDto) {
-    return this.postsService.update(id, post);
+  async updatePost(@Param() { id }: ParamsWithId, @Body() post: UpdateTaskDto) {
+    return this.tasksService.update(id, post);
   }
 }
